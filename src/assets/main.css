@@ -1,0 +1,42 @@
+@import './base.css';
+
+/* 重置#app的默认样式，确保铺满全屏 */
+#app {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: normal;
+  display: block !important;
+}
+
+/* 确保在所有断点下都使用正确的布局 */
+@media (min-width: 1024px) {
+  body {
+    display: block !important;
+    place-items: unset !important;
+  }
+
+  #app {
+    display: block !important;
+    grid-template-columns: unset !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+/* 链接样式保持不变 */
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}

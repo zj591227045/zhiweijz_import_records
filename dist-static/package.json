@@ -1,0 +1,21 @@
+{
+  "name": "import-records-app-static",
+  "version": "1.0.0",
+  "description": "记账数据导入工具 - 静态部署版本",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop import-records-app",
+    "pm2:restart": "pm2 restart import-records-app",
+    "pm2:delete": "pm2 delete import-records-app",
+    "pm2:logs": "pm2 logs import-records-app",
+    "pm2:monit": "pm2 monit"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
