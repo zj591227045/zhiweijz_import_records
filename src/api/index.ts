@@ -266,7 +266,16 @@ export class ApiClient {
             instanceToken: this.authToken ? 'Present' : 'Missing',
             requestUrl: config?.url
           })
-          this.handleUnauthorized()
+          
+          // 区分登录请求和其他请求的 401 错误
+          if (config?.url?.includes('/auth/login')) {
+            // 登录请求的 401 错误，显示具体的错误信息
+            const errorMessage = error.response?.data?.message || '用户名或密码错误'
+            ElMessage.error(errorMessage)
+          } else {
+            // 其他请求的 401 错误，处理为未授权
+            this.handleUnauthorized()
+          }
         } else if (error.response?.status && error.response.status >= 500) {
           ElMessage.error('服务器错误，请稍后重试')
         } else if (!error.response) {

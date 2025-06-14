@@ -494,6 +494,16 @@ const handleLogin = async () => {
     await importStore.login(loginForm.value)
     ElMessage.success('登录成功')
   } catch (error) {
+    // 检查是否是 401 错误（用户名密码错误）
+    if (error && typeof error === 'object' && 'response' in error) {
+      const axiosError = error as any
+      if (axiosError.response?.status === 401) {
+        // 401 错误已经在 API 拦截器中显示了具体的错误信息，这里不需要再次显示
+        return
+      }
+    }
+    
+    // 其他错误显示通用错误信息
     ElMessage.error(error instanceof Error ? error.message : '登录失败')
   }
 }

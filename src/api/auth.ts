@@ -18,13 +18,15 @@ export class AuthAPI {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await apiClient.post<LoginResponse>('/auth/login', credentials)
     
-    // 检查响应格式，获取token
-    const data = response.data
-    if (data && data.token) {
-      apiClient.setAuthToken(data.token)
+    // apiClient.post() 直接返回数据，不是标准的 Axios 响应格式
+    // 所以 response 就是数据本身，不需要访问 response.data
+    console.log('[AuthAPI] Login response (direct data):', response)
+    
+    if (response && response.token) {
+      apiClient.setAuthToken(response.token)
     }
     
-    return data
+    return response
   }
 
   /**
@@ -148,7 +150,7 @@ export class AuthAPI {
    */
   async validateToken(): Promise<boolean> {
     try {
-      await apiClient.get('/auth/validate')
+      await apiClient.get('/auth/check')
       return true
     } catch (error) {
       return false

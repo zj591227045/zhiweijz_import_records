@@ -194,7 +194,22 @@ export const useImportStore = defineStore('import', () => {
       
       const response = await authAPI.login(credentials)
       
-      // 根据实际响应结构，直接访问token和user
+      // 添加调试日志
+      console.log('[Store] Login response:', response)
+      
+      // AuthAPI.login 返回的是 response.data，检查响应格式
+      if (!response) {
+        throw new Error('登录响应为空')
+      }
+      
+      if (!response.token) {
+        throw new Error('登录响应中缺少 token')
+      }
+      
+      if (!response.user) {
+        throw new Error('登录响应中缺少用户信息')
+      }
+      
       authToken.value = response.token
       currentUser.value = response.user
       
@@ -212,7 +227,21 @@ export const useImportStore = defineStore('import', () => {
       await loadAccountBooks()
       
     } catch (err) {
-      error.value = err instanceof Error ? err.message : '登录失败'
+      console.error('[Store] Login error:', err)
+      
+      // 检查是否是 401 错误（用户名密码错误）
+      if (err && typeof err === 'object' && 'response' in err) {
+        const axiosError = err as any
+        if (axiosError.response?.status === 401) {
+          // 401 错误已经在 API 拦截器中处理了，不需要再次显示错误
+          error.value = axiosError.response?.data?.message || '用户名或密码错误'
+        } else {
+          error.value = err instanceof Error ? err.message : '登录失败'
+        }
+      } else {
+        error.value = err instanceof Error ? err.message : '登录失败'
+      }
+      
       throw err
     } finally {
       isLoading.value = false
@@ -336,7 +365,7 @@ export const useImportStore = defineStore('import', () => {
     try {
       const response = await accountBookAPI.getAccountBooks()
       
-      // 账本数据在response.data数组中
+      // response现在直接是AccountBookList类型，取其data字段中的账本数组
       availableAccountBooks.value = response.data || []
       
     } catch (err) {
