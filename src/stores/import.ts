@@ -410,12 +410,16 @@ export const useImportStore = defineStore('import', () => {
   const loadCategories = async () => {
     try {
       const { categoryAPI } = await import('../api/category')
-      const response = await categoryAPI.getCategories()
-      // 直接使用响应数据，它已经是Category[]数组
-      availableCategories.value = response || []
+      const categories = await categoryAPI.getCategories()
+      
+      console.log('[loadCategories] 获取到的分类数据:', categories)
+      
+      availableCategories.value = categories || []
       
       // 保存分类到localStorage，避免重复请求
-      localStorage.setItem('available_categories', JSON.stringify(response || []))
+      localStorage.setItem('available_categories', JSON.stringify(categories || []))
+      
+      console.log('[loadCategories] 分类数据已保存到 LocalStorage，数量:', categories.length)
       
     } catch (err) {
       console.warn('加载分类列表失败:', err)

@@ -24,7 +24,21 @@ export class CategoryAPI {
     search?: string
   }): Promise<Category[]> {
     const response = await apiClient.get<Category[]>('/categories', { params })
-    return response.data
+    
+    // 调试输出
+    console.log('[CategoryAPI] getCategories 原始响应:', response)
+    
+    // 处理响应结构 - 服务器返回的是 {requestId, status, duration, data}
+    if (response && Array.isArray(response.data)) {
+      console.log('[CategoryAPI] 从 response.data 提取分类数据，数量:', response.data.length)
+      return response.data
+    } else if (Array.isArray(response)) {
+      console.log('[CategoryAPI] 响应本身就是数组，数量:', response.length)
+      return response
+    } else {
+      console.warn('[CategoryAPI] 意外的响应结构:', response)
+      return []
+    }
   }
 
   /**
