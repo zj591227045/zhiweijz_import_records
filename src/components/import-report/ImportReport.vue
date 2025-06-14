@@ -720,9 +720,6 @@ const handleUndoImport = async () => {
       ElMessage.success(`成功撤销导入，删除了 ${result.deletedCount} 条记录`)
     }
     
-    // 撤销成功后返回首页
-    emit('go-home')
-    
   } catch (error) {
     if (error !== 'cancel') {
       console.error('撤销导入失败:', error)

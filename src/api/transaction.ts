@@ -83,7 +83,21 @@ export class TransactionAPI extends ApiClient {
    */
   async createTransaction(data: CreateTransactionRequest): Promise<Transaction> {
     const response = await this.post<Transaction>('/transactions', data)
-    return response.data
+    
+    console.log('[createTransaction] API 响应:', response)
+    
+    // 处理响应结构 - 服务器返回的是 {requestId, status, duration, data}
+    if (response && response.data) {
+      console.log('[createTransaction] 从 response.data 提取交易数据:', response.data)
+      return response.data
+    } else if (response && response.id) {
+      // 如果响应本身就是交易对象
+      console.log('[createTransaction] 响应本身就是交易对象:', response)
+      return response as Transaction
+    } else {
+      console.error('[createTransaction] 意外的响应结构:', response)
+      throw new Error('无法解析创建交易的响应数据')
+    }
   }
 
   /**
@@ -290,12 +304,16 @@ export class TransactionAPI extends ApiClient {
     const success: Transaction[] = []
     const failed: ImportError[] = []
 
+    console.log(`[processBatch] 开始处理批次，交易数量: ${batch.length}`)
+
     // 并发处理批次中的记录
     const promises = batch.map(async (transaction, index) => {
       try {
         const created = await this.createTransaction(transaction)
+        console.log(`[processBatch] 交易 ${startIndex + index} 创建成功:`, created)
         return { success: created, failed: null, index: startIndex + index }
       } catch (error) {
+        console.error(`[processBatch] 交易 ${startIndex + index} 创建失败:`, error)
         return { 
           success: null, 
           failed: {
@@ -310,23 +328,27 @@ export class TransactionAPI extends ApiClient {
 
     const results = await Promise.allSettled(promises)
 
-    results.forEach((result) => {
+    results.forEach((result, index) => {
       if (result.status === 'fulfilled') {
         if (result.value.success) {
           success.push(result.value.success)
+          console.log(`[processBatch] 记录 ${startIndex + index} 添加到成功列表`)
         }
         if (result.value.failed) {
           failed.push(result.value.failed)
+          console.log(`[processBatch] 记录 ${startIndex + index} 添加到失败列表`)
         }
       } else {
         failed.push({
-          index: -1,
+          index: startIndex + index,
           data: null,
           error: result.reason?.message || '批次处理失败'
         })
+        console.error(`[processBatch] Promise rejected for record ${startIndex + index}:`, result.reason)
       }
     })
 
+    console.log(`[processBatch] 批次处理完成 - 成功: ${success.length}, 失败: ${failed.length}`)
     return { success, failed }
   }
 
