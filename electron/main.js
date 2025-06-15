@@ -35,7 +35,7 @@ function createWindow() {
     minWidth: 800,
     minHeight: 600,
     show: false,
-    title: '记账数据导入工具',
+    title: '「只为记账」记录导入工具',
     titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
     webPreferences: {
       nodeIntegration: true,

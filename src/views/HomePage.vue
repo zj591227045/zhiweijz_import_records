@@ -7,7 +7,7 @@
           <el-icon size="32" color="#409EFF">
             <DocumentCopy />
           </el-icon>
-          <h1>记账数据导入工具</h1>
+          <h1>「只为记账」记录导入工具</h1>
         </div>
         
         <!-- 顶部菜单按钮 -->

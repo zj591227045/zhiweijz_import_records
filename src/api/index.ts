@@ -162,9 +162,20 @@ export class ApiClient {
     // 请求拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        // 确保使用最新的baseURL
+        // 确保使用最新的baseURL - 始终从localStorage检查
+        const storedBaseURL = localStorage.getItem('api_base_url')
+        if (storedBaseURL && !this.baseURL) {
+          // 如果实例中没有baseURL但localStorage中有，恢复它
+          console.log('[API Request] Restoring baseURL from localStorage:', storedBaseURL)
+          this.setBaseURL(storedBaseURL)
+        }
+        
+        // 确保设置baseURL到请求配置中
         if (this.baseURL) {
           config.baseURL = this.baseURL
+          console.log('[API Request] Using baseURL:', this.baseURL)
+        } else {
+          console.error('[API Request] No baseURL available! Request will fail.')
         }
         
         // 确保从localStorage获取最新的token（防止token被意外清除但localStorage中还有）

@@ -21,7 +21,10 @@
     "build:all": "npm run build && electron-builder --mac --win",
     "build:complete": "node scripts/build-and-fix.js",
     "fix:packaged": "node scripts/fix-packaged-app.js",
-    "test:apps": "node scripts/test-apps.js"
+    "test:apps": "node scripts/test-apps.js",
+    "deploy": "chmod +x scripts/deploy.sh && ./scripts/deploy.sh",
+    "deploy:clean": "rm -rf deploy-package dist",
+    "build:production": "chmod +x scripts/build-production.sh && ./scripts/build-production.sh"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
