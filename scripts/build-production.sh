@@ -117,14 +117,14 @@ cat > deploy-package/package.json << EOF
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "serve -s dist -p 3006",
+    "start": "npx http-server dist -p 3006 --cors -c-1",
     "pm2:start": "pm2 start ecosystem.config.js --env production",
     "pm2:stop": "pm2 stop import-records-app",
     "pm2:restart": "pm2 restart import-records-app",
     "pm2:delete": "pm2 delete import-records-app"
   },
   "dependencies": {
-    "serve": "^14.2.1"
+    "http-server": "^14.1.1"
   }
 }
 EOF

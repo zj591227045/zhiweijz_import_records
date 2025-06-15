@@ -2,19 +2,17 @@ module.exports = {
   apps: [
     {
       name: 'import-records-app',
-      script: 'serve',
-      args: ['-s', 'dist', '-p', '3006'],
+      script: 'npx',
+      args: ['http-server', 'dist', '-p', '3006', '--cors', '-c-1'],
       instances: 1,
       autorestart: true,
       watch: false,
       max_memory_restart: '1G',
       env: {
-        NODE_ENV: 'production',
-        PORT: 3006
+        NODE_ENV: 'production'
       },
       env_production: {
-        NODE_ENV: 'production',
-        PORT: 3006
+        NODE_ENV: 'production'
       },
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       error_file: './logs/err.log',
