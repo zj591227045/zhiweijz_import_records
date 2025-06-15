@@ -117,7 +117,7 @@ cat > deploy-package/package.json << EOF
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "serve -s dist -l 3006",
+    "start": "serve -s dist -p 3006",
     "pm2:start": "pm2 start ecosystem.config.js --env production",
     "pm2:stop": "pm2 stop import-records-app",
     "pm2:restart": "pm2 restart import-records-app",
