@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'import-records-app',
       script: 'serve',
-      args: '-s dist -p 3006',
+      args: ['-s', 'dist', '-p', '3006'],
       instances: 1,
       autorestart: true,
       watch: false,

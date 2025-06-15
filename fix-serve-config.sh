@@ -17,14 +17,14 @@ fi
 cp ecosystem.config.js ecosystem.config.js.backup
 echo "✅ 已备份原配置文件"
 
-# 修复 ecosystem.config.js
+# 修复 ecosystem.config.js - 使用数组格式传递参数
 cat > ecosystem.config.js << 'EOF'
 module.exports = {
   apps: [
     {
       name: 'import-records-app',
       script: 'serve',
-      args: '-s dist -p 3006',
+      args: ['-s', 'dist', '-p', '3006'],
       instances: 1,
       autorestart: true,
       watch: false,
@@ -47,7 +47,7 @@ module.exports = {
 };
 EOF
 
-echo "✅ 已修复 ecosystem.config.js"
+echo "✅ 已修复 ecosystem.config.js（使用数组格式参数）"
 
 # 修复 package.json
 cp package.json package.json.backup
@@ -75,9 +75,16 @@ echo "✅ 已修复 package.json"
 echo "🛑 停止旧进程..."
 pm2 delete import-records-app 2>/dev/null || echo "没有找到旧进程"
 
+# 清理日志
+echo "🧹 清理旧日志..."
+rm -rf logs/*
+
 # 重新启动
 echo "🚀 重新启动应用..."
 pm2 start ecosystem.config.js --env production
+
+# 等待几秒让应用启动
+sleep 3
 
 # 保存配置
 pm2 save
@@ -87,6 +94,10 @@ echo "🎉 修复完成！"
 echo ""
 echo "📊 应用状态："
 pm2 status
+
+echo ""
+echo "📋 检查应用是否正常运行："
+echo "curl http://localhost:3006"
 
 echo ""
 echo "📋 应用信息："
