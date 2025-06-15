@@ -18,7 +18,7 @@ export default defineConfig(({ command }) => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       },
     },
-    base: './', // 始终使用相对路径，适配Electron环境
+    base: './', // 使用相对路径
     build: {
       outDir: 'dist',
       emptyOutDir: true,
@@ -30,15 +30,6 @@ export default defineConfig(({ command }) => {
           chunkFileNames: 'assets/[name]-[hash].js',
           entryFileNames: 'assets/[name]-[hash].js'
         }
-      }
-    },
-    experimental: {
-      renderBuiltUrl(filename, { hostType }) {
-        // 对于Electron环境，确保路径不重复
-        if (filename.startsWith('assets/')) {
-          return `./${filename}`
-        }
-        return `./assets/${filename}`
       }
     },
     server: {
