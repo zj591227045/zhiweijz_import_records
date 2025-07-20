@@ -1,0 +1,44 @@
+# Vercel 静态资源缓存配置
+
+# 静态资源长期缓存
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 字体文件缓存
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+/*.ttf
+  Cache-Control: public, max-age=31536000, immutable
+/*.eot
+  Cache-Control: public, max-age=31536000, immutable
+
+# 图片文件缓存
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+/*.gif
+  Cache-Control: public, max-age=31536000, immutable
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML 文件不缓存
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 主页面不缓存
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+# 安全头
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin

@@ -26,7 +26,7 @@ export class AccountBookAPI {
     sortOrder?: 'asc' | 'desc'
   }): Promise<AccountBookList> {
     const response = await apiClient.get<AccountBookList>('/account-books', { params })
-    return response
+    return response.data
   }
 
   /**

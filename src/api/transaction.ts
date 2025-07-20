@@ -85,15 +85,15 @@ export class TransactionAPI extends ApiClient {
     const response = await this.post<Transaction>('/transactions', data)
     
     console.log('[createTransaction] API 响应:', response)
-    
+
     // 处理响应结构 - 服务器返回的是 {requestId, status, duration, data}
     if (response && response.data) {
       console.log('[createTransaction] 从 response.data 提取交易数据:', response.data)
       return response.data
-    } else if (response && response.id) {
+    } else if (response && (response as any).id) {
       // 如果响应本身就是交易对象
       console.log('[createTransaction] 响应本身就是交易对象:', response)
-      return response as Transaction
+      return response as unknown as Transaction
     } else {
       console.error('[createTransaction] 意外的响应结构:', response)
       throw new Error('无法解析创建交易的响应数据')

@@ -1,0 +1,12 @@
+# Vercel SPA 路由重定向配置
+# 所有非文件请求都重定向到 index.html
+
+# 静态资源直接访问
+/assets/*  /assets/:splat  200
+/favicon.ico  /favicon.ico  200
+
+# API 请求保持原样（如果有代理需求）
+/api/*  /api/:splat  200
+
+# SPA 路由重定向
+/*  /index.html  200
