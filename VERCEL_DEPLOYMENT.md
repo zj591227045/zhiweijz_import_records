@@ -23,10 +23,11 @@
 ### 2. 项目配置检查
 
 确保以下文件已正确配置：
-- ✅ `vercel.json` - Vercel 部署配置
+- ✅ `vercel.json` - 简化的 Vercel 部署配置（仅包含 SPA 路由重写）
 - ✅ `package.json` - 包含 `vercel-build` 脚本
 - ✅ `vite.config.ts` - 优化的构建配置
 - ✅ `.env.example` - 环境变量模板
+- ✅ 修复了无效的区域代码问题
 
 ## 部署方式
 

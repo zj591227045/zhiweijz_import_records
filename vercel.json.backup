@@ -1,9 +1,5 @@
 {
   "version": 2,
-  "name": "zhiweijz-import-records",
-  "buildCommand": "npm run vercel-build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
   "routes": [
     {
       "src": "/assets/(.*)",
@@ -49,6 +45,5 @@
         }
       ]
     }
-  ],
-  "regions": ["hkg1", "sin1", "nrt1"]
+  ]
 }

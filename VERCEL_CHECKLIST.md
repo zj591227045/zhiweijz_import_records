@@ -3,7 +3,7 @@
 ## ✅ 已完成的改造项目
 
 ### 1. 核心配置文件
-- ✅ `vercel.json` - Vercel 部署配置
+- ✅ `vercel.json` - 简化的 Vercel 部署配置（修复区域代码错误）
 - ✅ `package.json` - 添加 `vercel-build` 脚本
 - ✅ `vite.config.ts` - 优化构建配置
 - ✅ `.env.example` - 环境变量模板
